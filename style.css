@@ -1,0 +1,320 @@
+body {
+  background: black !important;
+}
+#content_cards_house {
+  display: flex;
+  gap: 0.1rem;
+}
+
+.cards.flip {
+  border-radius: 0.3rem;
+  transform: rotateY(180deg) !important;
+  background-color: #ddd !important;
+  background-image: url(https://i.pinimg.com/originals/4d/bd/ea/4dbdea57e690e6dbacef92acd025d3cd.png);
+  color: transparent !important;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.cards {
+  background-color: rgb(255, 255, 255);
+  width: 65px;
+  height: 100px;
+  position: relative;
+  display: flex;
+  grid-area: 1rem;
+  justify-content: center;
+  align-items: center;
+  box-shadow: inset 0 -3em 3em rgb(0 0 0 / 3%), 0 0 0 2px rgb(255, 255, 255), 0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+}
+
+.cards_number_one {
+  position: absolute;
+  top: 0;
+  left: 5px;
+  font-weight: 500;
+}
+
+.cards_number_two {
+  position: absolute;
+  bottom: 0;
+  right: 5px;
+  font-weight: 500;
+}
+
+.icons i {
+  font-size: 2.5rem;
+}
+
+
+.icons.data {
+  display: none !important;
+}
+
+
+
+#content_cards_player {
+  display: flex;
+}
+
+.content_cards {
+  gap: 6rem;
+  display: flex;
+  justify-content: center;
+  height: 95vh;
+  align-items: center;
+}
+
+.cards-container {
+  display: inline-block;
+  margin-left: -50px;
+  margin-bottom: -5rem;
+  /* margen negativo para que las cartas se superpongan */
+  animation: shake 2s;
+  animation-direction: alternate;
+}
+
+
+
+@keyframes shake {
+  0% {
+    transform: skewY(10deg);
+  }
+
+  100% {
+    transform: skewY(-10deg);
+  }
+}
+
+
+.cards-container .cards {
+  display: inline-block;
+  margin-left: 50px;
+  /* margen para separar las cartas */
+  position: relative;
+}
+
+.cards-container .cards:first-child {
+  margin-left: 5px;
+  /* no aplicar margen a la primera carta */
+  display: flex;
+}
+
+.cards-container .cards:not(:first-child) {
+  z-index: 1;
+  /* elevar las cartas por encima de la primera */
+  transform: translateX(-25px);
+  /* mover las cartas hacia la izquierda */
+}
+
+#show_the_remaining_cards {
+  text-align: center;
+  position: absolute;
+  right: 0;
+  width: 89%;
+}
+
+.get {
+  background-color: rgb(248, 248, 248);
+}
+
+#ask_for_a_card {
+  background: #fb2e00;
+  border: 0;
+  border-radius: 1rem;
+  color: white;
+  font-weight: 600;
+  padding: 0.5rem;
+}
+
+#look_at_the_cards {
+  background: #006dfb;
+  border: 0;
+  border-radius: 1rem;
+  color: white;
+  font-weight: 600;
+  padding: 0.5rem;
+}
+
+#play_again {
+  display: none;
+  background: #017937;
+  border: 0;
+  border-radius: 1rem;
+  color: white;
+  font-weight: 600;
+  padding: 0.5rem;
+}
+
+
+
+
+
+
+.coin-five {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  color: white;
+  background: radial-gradient(circle, #07774c 0%, rgb(1 66 35) 100%);
+  border: 2px solid #a3a3a3;
+  margin: 5px;
+  display: inline-flex;
+  position: relative;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.coin-then {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  color: white;
+  background: radial-gradient(circle, #c51b0f 0%, rgb(84 22 8) 100%);
+  border: 2px solid #a3a3a3;
+  margin: 5px;
+  display: inline-flex;
+  position: relative;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.coin-twenty {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  color: white;
+  background: radial-gradient(circle, #d48003 0%, rgb(159, 117, 0) 100%);
+  border: 2px solid #a3a3a3;
+  margin: 5px;
+  display: inline-flex;
+  position: relative;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.coin-fifty {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  color: white;
+  background: radial-gradient(circle, #035ed4 0%, rgb(0 27 159) 100%);
+  border: 2px solid #a3a3a3;
+  margin: 5px;
+  display: inline-flex;
+  position: relative;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.coin-hundred {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  color: white;
+  background: radial-gradient(circle, #ffbc00 0%, rgb(255 165 0 / 45%) 100%);
+  border: 2px solid #a3a3a3;
+  margin: 5px;
+  display: inline-flex;
+  position: relative;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.coin-two_hundred {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #000000 0%, rgb(0 0 0 / 25%) 100%);
+  border: 2px solid #a3a3a3;
+  margin: 5px;
+  display: inline-flex;
+  position: relative;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+}
+
+
+
+.game-table {
+  position: absolute;
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  height: 99vh;
+  max-width: 1800px;
+  max-height: 99vh;
+  background: rgb(8, 128, 6);
+  background: radial-gradient(circle, rgba(8, 128, 6, 1) 0%, rgba(38, 52, 38, 1) 100%);
+  border: 15px solid #595856;
+  border-radius: 10000px;
+  box-shadow: 0 0 15px black;
+}
+
+
+
+#coins {
+  display: flex;
+  gap: 0.3rem;
+  justify-content: center;
+  position: absolute;
+  bottom: 75px;
+  width: 100%;
+  left: 0;
+  z-index: 1;
+}
+
+
+.button_options {
+  position: absolute;
+  bottom: -13px;
+  left: 0;
+  z-index: 1;
+}
+
+.content_button {
+  display: grid;
+  width: 15%;
+  gap: 0.3rem;
+}
+
+.bet_amount{
+    position: absolute;
+    bottom: 16px;
+    left: 0;
+    text-align: center;
+    color: white;
+    display: flex;
+    justify-content: center;
+}
+
+#bet_amount_content {
+  width: 200px;
+    display: flex;
+    justify-content: center;
+    padding: 0.7rem;
+    border-radius: 1rem;
+    background: radial-gradient(circle, #2e2c2c 0%, rgb(18 3 0) 100%);
+    border: 2px solid #a3a3a3;
+    font-weight: 700;
+}
