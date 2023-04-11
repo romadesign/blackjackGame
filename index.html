@@ -22,38 +22,45 @@
       <div class="container">
         <div class="row">
           <div id="show_the_remaining_cards">Mostrar todas las cartas</div>
-          <div class="content_cards">
+
+          <!-- SHOW CARDS -->
+          <div id="hide_content" class="content_cards">
             <div>
               <div id="content_cards_house"></div>
               <div id="result_house"></div>
             </div>
+            <div id="bet_amount"></div>
             <div>
               <div id="content_cards_player"></div>
               <div id="result_player"></div>
             </div>
-          </div>
-          <div id="coins">monedas</div>
-          <div class="button_options">
-            <div class="content_button">
-              <button id="ask_for_a_card" onclick="askForLetter()">
-                Ask for a card
-              </button>
-              <button id="look_at_the_cards" onclick="showCards()">
-                Look at the cards
-              </button>
-              <button id="play_again" onclick="restart()">Play again</button>
+
+            <!-- BUTTONS -->
+            <div class="button_options">
+              <div class="content_button">
+                <button id="ask_for_a_card" onclick="askForLetter()">
+                  Ask for a card
+                </button>
+                <button id="look_at_the_cards" onclick="showCards()">
+                  Look at the cards
+                </button>
+                <button id="play_again" onclick="restart()">Play again</button>
+              </div>
             </div>
           </div>
+
+          <!-- COINT -->
+          <div id="coins"></div>
           <div class="bet_amount">
-            <div id="bet_amount_content">
-              $ 0
-            </div>
+            <div id="bet_amount_content">$ 0</div>
+            <button id="bet_button" onclick="bet()">bet</button>
           </div>
-          <div id="cards-container"></div>
-          <div id="player-two-cards"></div>
+        </div>
+        <div id="modal_you_lost">
+         
         </div>
       </div>
-    </div> 
+    </div>
   </body>
   <script src="script.js"></script>
   <script

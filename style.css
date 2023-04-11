@@ -1,6 +1,7 @@
 body {
   background: black !important;
 }
+
 #content_cards_house {
   display: flex;
   gap: 0.1rem;
@@ -58,13 +59,19 @@ body {
   display: flex;
 }
 
+#hide_content {
+  display: none;
+}
+
 .content_cards {
-  gap: 6rem;
+  gap: 2rem;
   display: flex;
   justify-content: center;
   height: 95vh;
   align-items: center;
 }
+
+
 
 .cards-container {
   display: inline-block;
@@ -113,6 +120,7 @@ body {
   position: absolute;
   right: 0;
   width: 89%;
+  z-index: 3;
 }
 
 .get {
@@ -281,7 +289,7 @@ body {
   bottom: 75px;
   width: 100%;
   left: 0;
-  z-index: 1;
+  z-index: 2;
 }
 
 
@@ -289,32 +297,106 @@ body {
   position: absolute;
   bottom: -13px;
   left: 0;
-  z-index: 1;
+  z-index: 3;
 }
 
 .content_button {
   display: grid;
-  width: 15%;
   gap: 0.3rem;
+
 }
 
-.bet_amount{
-    position: absolute;
-    bottom: 16px;
-    left: 0;
-    text-align: center;
-    color: white;
-    display: flex;
-    justify-content: center;
+.bet_amount {
+  z-index: 2;
+  position: absolute;
+  bottom: 16px;
+  left: 0;
+  text-align: center;
+  color: white;
+  display: flex;
+  justify-content: center;
 }
 
 #bet_amount_content {
   width: 200px;
-    display: flex;
-    justify-content: center;
-    padding: 0.7rem;
-    border-radius: 1rem;
-    background: radial-gradient(circle, #2e2c2c 0%, rgb(18 3 0) 100%);
-    border: 2px solid #a3a3a3;
-    font-weight: 700;
+  display: flex;
+  justify-content: center;
+  padding: 0.7rem;
+  border-radius: 1rem;
+  background: radial-gradient(circle, #2e2c2c 0%, rgb(18 3 0) 100%);
+  border: 2px solid #a3a3a3;
+  font-weight: 700;
+}
+
+#bet_button {
+  background-color: rgba(218, 7, 0, 0.918);
+  border: 0;
+  margin-left: 1rem;
+  color: white;
+  font-weight: 600;
+  border-radius: 1rem;
+}
+
+.total_text {
+  font-size: 0.7rem;
+  font-weight: bold;
+  color: white;
+}
+
+.total {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: white;
+  text-align: center;
+}
+
+#modal_you_lost {
+  display: flex;
+  height: 100vh;
+  position: fixed;
+  width: 100%;
+  left: 0;
+  top: 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.content_modal_you_lost {
+  background: #000000da;
+  width: 100%;
+  text-align: center;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.content_modal_you_lost h6{
+ font-size: 2rem;
+ color: white;
+
+}
+
+.content_modal_you_lost button{
+  background-color: rgb(0, 153, 51);
+  color: white;
+  font-weight: 700;
+  border: 0;
+  padding: 0.6rem;
+  border-radius: 1rem;
+}
+
+#result_total_player_one{
+  color: white;
+  font-size: 1.5rem;
+}
+
+#result_total_player_two{
+  color: white;
+  font-size: 1.5rem;
+}
+
+.result_player_modal{
+  color: white;
 }

@@ -1,6 +1,6 @@
 const content_cards_house = document.getElementById('content_cards_house')
-const result_house = document.getElementById('result_house')
 const content_cards_player = document.getElementById('content_cards_player')
+const result_house = document.getElementById('result_house')
 const result_player = document.getElementById('result_player')
 const show_the_remaining_cards = document.getElementById(
   'show_the_remaining_cards'
@@ -11,15 +11,26 @@ const play_again = document.getElementById('play_again')
 const bankdiv = document.getElementById('coins')
 const coinContainer = document.getElementById('coin-container')
 const bet_amount_content = document.getElementById('bet_amount_content')
+const bet_button = document.getElementById('bet_button')
+const hide_content = document.getElementById('hide_content')
+const bet_amount = document.getElementById('bet_amount')
+const modal_result = document.getElementById('modal_you_lost')
+const result_total_player_one_modal = document.getElementById(
+  'result_total_player_one'
+)
 
 let bank = 1000
 let coins = [5, 10, 20, 50, 100, 200]
 let betCoinsplayerTwo = []
+let betCoinsplayer_house = ''
 let numbersPlayerOne = []
 let numbersPlayerTwo = []
 let resultPlayerOne = ''
 let resultPlayerTwo = ''
 let showHouseFirstCard = false
+let total = ''
+//hide button bet
+bet_button.style.display = 'none'
 
 const suits = [
   { name: 'hearts', icon: `<i class="bi bi-suit-spade-fill"></i>` },
@@ -95,67 +106,75 @@ function showingCards (numbersPlayer, printResult) {
   printResult.innerHTML = cardsPlayerOne.join('')
 }
 
-//house player settings
-numbersPlayerOne = getTwoRandomCards(deck)
-//eliminando las cartas que ya son de la casa
-deck = deck.filter(card => !numbersPlayerOne.includes(card))
 
-//sumando para obtener la cantidad de puntos player one
-resultPlayerOne = totalPoints(numbersPlayerOne)
+function modalResult (resultPlayerOne, resultPlayerTwo, message) {
+  modal_result.innerHTML = `
+  <div class="content_modal_you_lost">
+    <div class="result_player_modal">
+      <div>
+        <div>Home</div>
+        <h4>Total: ${resultPlayerOne}</h4>
+      </div>
+    </div>
+    <div>
+      <h6>${message}</h6> 
+      <div>
+        <button>Play again</button>
+      </div>
+    </div>
+    <div class="result_player_modal">
+      <div>
+        <div>Player two</div>
+        <h4>Total: ${resultPlayerTwo}</h4>
+      </div>
+    </div>
+  </div>
+  `
+}
 
-validationCards(resultPlayerOne, numbersPlayerOne, result_house)
 
-//hide validation cards
-// if (resultPlayerOne > 21 && numbersPlayerOne.some(item => item.rank === 'A')) {
-//   resultPlayerOne -= 10
-// }
 
-// if (resultPlayerOne !== 21) {
-//   showHouseFirstCard = true
-// }
-// result_house.innerHTML += `Resultado del jugador 1: ${resultPlayerOne}`
+function start_Game () {
+  /////////Player One ///////
+  //house player settings
+  numbersPlayerOne = getTwoRandomCards(deck)
+  //eliminando las cartas que ya son de la casa
+  deck = deck.filter(card => !numbersPlayerOne.includes(card))
 
-// Agregamos las cartas del jugador 1 a la interfaz
+  //sumando para obtener la cantidad de puntos player one
+  resultPlayerOne = totalPoints(numbersPlayerOne)
 
-const cardsPlayerOne = numbersPlayerOne.map((item, index) => {
-  const shouldFlip = showHouseFirstCard && index === 0 && resultPlayerOne < 21
-  return `
+  validationCards(resultPlayerOne, numbersPlayerOne, result_house)
+
+  const cardsPlayerOne = numbersPlayerOne.map((item, index) => {
+    const shouldFlip = showHouseFirstCard && index === 0 && resultPlayerOne < 21
+    return `
     <div class="cards ${shouldFlip ? 'flip' : ''}">
       <span class="cards_number_one">${item.rank}</span>
       <span class="icons ${shouldFlip != false ? 'data' : ''}">${
-    item.icon
-  }</span>
+      item.icon
+    }</span>
       <span class="cards_number_two">${item.rank}</span>
     </div>
   `
-})
+  })
 
-content_cards_house.innerHTML = cardsPlayerOne.join('')
+  content_cards_house.innerHTML = cardsPlayerOne.join('')
 
-//player cards settings
-numbersPlayerTwo = getTwoRandomCards(deck)
+  ////////////Player two ////////////////////
+  //player cards settings
+  numbersPlayerTwo = getTwoRandomCards(deck)
 
-//eliminando las cartas que ya son del player
-deck = deck.filter(card => !numbersPlayerTwo.includes(card))
+  //eliminando las cartas que ya son del player
+  deck = deck.filter(card => !numbersPlayerTwo.includes(card))
 
-//sum count point player two
-resultPlayerTwo = totalPoints(numbersPlayerTwo)
+  //sum count point player two
+  resultPlayerTwo = totalPoints(numbersPlayerTwo)
 
-validationCards(resultPlayerTwo, numbersPlayerTwo, result_player)
+  validationCards(resultPlayerTwo, numbersPlayerTwo, result_player)
 
-//hide validation cards
-// if (resultPlayerTwo > 21 && numbersPlayerTwo.some(item => item.rank === 'A')) {
-//   resultPlayerTwo -= 10
-// }
-
-// if (resultPlayerTwo !== 21) {
-//   showHouseFirstCard = true
-// }
-// result_player.innerHTML += `Result player 2: ${resultPlayerTwo}`
-
-// Agregamos las cartas del jugador 2 a la interfaz
-
-showingCards(numbersPlayerTwo, content_cards_player)
+  showingCards(numbersPlayerTwo, content_cards_player)
+}
 
 const askForLetter = () => {
   const remainingCardsRamdon = deck.sort(function () {
@@ -184,7 +203,6 @@ const askForLetter = () => {
 }
 
 const showSelectedCard = card_id => {
-  alert('lasdsa`dlkn')
   const selectedCard = document.getElementById(card_id)
   selectedCard.classList.add('get')
   selectedCard.children[1].classList.remove('data')
@@ -199,20 +217,37 @@ const showSelectedCard = card_id => {
 
   validationCards(resultPlayerTwo, numbersPlayerTwo, result_player)
 
-  if (resultPlayerTwo >= 21) {
+  if (resultPlayerTwo > 21) {
     showingCards(numbersPlayerOne, content_cards_house)
     ask_for_a_card.style.display = 'none'
+    const message = "You lost"
+    modalResult(resultPlayerOne, resultPlayerTwo, message)
   }
 
   // updated cards player two
   showingCards(numbersPlayerTwo, content_cards_player)
 }
 
+
+
 const showCards = () => {
   ask_for_a_card.style.display = 'none'
   play_again.style.display = 'inline'
   look_at_the_cards.style.display = 'none'
   showingCards(numbersPlayerOne, content_cards_house)
+
+  if (resultPlayerOne > resultPlayerTwo) {
+    const message = "The house wins"
+    modalResult(resultPlayerOne, resultPlayerTwo, message)
+  }else{
+    //traer automaticamente una carta del array barajas
+
+    
+
+
+    const message = "You win"
+    modalResult(resultPlayerOne, resultPlayerTwo, message)
+  }
 }
 
 const restart = () => {
@@ -253,9 +288,33 @@ const content_coins = coins.map(item => {
 bankdiv.innerHTML = content_coins.join('')
 
 function betCoin (coin) {
-  bet_amount_content.innerHTML = ""
+  //show button bet
+  bet_button.style.display = 'block'
+
+  bet_amount_content.innerHTML = ''
   betCoinsplayerTwo.push(parseInt(coin))
-  let total = betCoinsplayerTwo.reduce((a, b) => a + b, 5);
-  console.log(total)
+  total = betCoinsplayerTwo.reduce((a, b) => a + b, 0)
+  betCoinsplayer_house = total
   bet_amount_content.innerHTML += `$ ${total}`
+}
+
+function bet () {
+  betAmount()
+  bankdiv.style.display = 'none'
+  hide_content.style.display = 'inline-flex'
+  start_Game()
+}
+
+function betAmount () {
+  const total_bet_players = total + betCoinsplayer_house
+  bet_amount.innerHTML = `
+    <div>
+      <div class="total_text">
+        TOTAL BET
+      </div>
+      <div class="total">
+        $ ${total_bet_players}
+      </div>
+    </div>
+  `
 }
