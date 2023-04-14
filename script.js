@@ -56,10 +56,15 @@ let deck = [].concat(
 )
 
 //generating 2 random numbers
-function getTwoRandomCards (deck) {
-  const randomIndex1 = Math.floor(Math.random() * deck.length)
-  const randomIndex2 = Math.floor(Math.random() * deck.length)
-  return [deck[randomIndex1], deck[randomIndex2]]
+function getRandomCards (deck, numberOfCards) {
+  if (numberOfCards == 2) {
+    const randomIndex1 = Math.floor(Math.random() * deck.length)
+    const randomIndex2 = Math.floor(Math.random() * deck.length)
+    return [deck[randomIndex1], deck[randomIndex2]]
+  } else if (numberOfCards == 1) {
+    const randomCard = Math.floor(Math.random() * deck.length)
+    return deck[randomCard]
+  }
 }
 
 function getCardValue (card) {
@@ -106,7 +111,6 @@ function showingCards (numbersPlayer, printResult) {
   printResult.innerHTML = cardsPlayerOne.join('')
 }
 
-
 function modalResult (resultPlayerOne, resultPlayerTwo, message) {
   modal_result.innerHTML = `
   <div class="content_modal_you_lost">
@@ -132,12 +136,11 @@ function modalResult (resultPlayerOne, resultPlayerTwo, message) {
   `
 }
 
-
-
 function start_Game () {
   /////////Player One ///////
   //house player settings
-  numbersPlayerOne = getTwoRandomCards(deck)
+  const numberOfCards = 2
+  numbersPlayerOne = getRandomCards(deck, numberOfCards)
   //eliminando las cartas que ya son de la casa
   deck = deck.filter(card => !numbersPlayerOne.includes(card))
 
@@ -163,7 +166,7 @@ function start_Game () {
 
   ////////////Player two ////////////////////
   //player cards settings
-  numbersPlayerTwo = getTwoRandomCards(deck)
+  numbersPlayerTwo = getRandomCards(deck, numberOfCards)
 
   //eliminando las cartas que ya son del player
   deck = deck.filter(card => !numbersPlayerTwo.includes(card))
@@ -220,7 +223,7 @@ const showSelectedCard = card_id => {
   if (resultPlayerTwo > 21) {
     showingCards(numbersPlayerOne, content_cards_house)
     ask_for_a_card.style.display = 'none'
-    const message = "You lost"
+    const message = 'The house wins :8'
     modalResult(resultPlayerOne, resultPlayerTwo, message)
   }
 
@@ -228,27 +231,60 @@ const showSelectedCard = card_id => {
   showingCards(numbersPlayerTwo, content_cards_player)
 }
 
-
-
 const showCards = () => {
   ask_for_a_card.style.display = 'none'
   play_again.style.display = 'inline'
   look_at_the_cards.style.display = 'none'
   showingCards(numbersPlayerOne, content_cards_house)
 
-  if (resultPlayerOne > resultPlayerTwo) {
-    const message = "The house wins"
+  //traer automaticamente una carta del array barajas
+  if (resultPlayerOne < resultPlayerTwo) {
+    const numberOfCards = 1
+    const newCard = getRandomCards(deck, numberOfCards)
+
+    // Agregar la carta al azar a numbersPlayerOne
+    numbersPlayerOne.push(newCard)
+    resultPlayerOne = totalPoints(numbersPlayerOne) //sumando todas las cartas
+    console.log(resultPlayerOne)
+    validationCards(resultPlayerOne, numbersPlayerOne, result_house)
+
+    //Mostrando todas las cartas
+    const cardsPlayerOne = numbersPlayerOne.map((item, index) => {
+      const shouldFlip =
+        showHouseFirstCard && index === 0 && resultPlayerOne < 21
+      return `
+        <div class="cards ${shouldFlip ? 'flip' : ''}">
+          <span class="cards_number_one">${item.rank}</span>
+          <span class="icons ${shouldFlip != false ? 'data' : ''}">${
+        item.icon
+      }</span>
+          <span class="cards_number_two">${item.rank}</span>
+        </div>
+      `
+    })
+
+    content_cards_house.innerHTML = cardsPlayerOne.join('')
+
+    if (resultPlayerOne > resultPlayerTwo) {
+      if (resultPlayerOne >= 22) {
+        const message = 'gano player 2'
+        modalResult(resultPlayerOne, resultPlayerTwo, message)
+      } else {
+        const message = 'gano la casa '
+        modalResult(resultPlayerOne, resultPlayerTwo, message)
+      }
+    } else {
+      const message = 'You win :('
+      modalResult(resultPlayerOne, resultPlayerTwo, message)
+    }
+  } else if (resultPlayerOne == resultPlayerTwo) {
+    const message = 'You win xD'
     modalResult(resultPlayerOne, resultPlayerTwo, message)
-  }else{
-    //traer automaticamente una carta del array barajas
-
-    
-
-
-    const message = "You win"
+  } else {
+    const message = 'The house wins :3'
     modalResult(resultPlayerOne, resultPlayerTwo, message)
   }
-}
+} 
 
 const restart = () => {
   window.location.reload()
