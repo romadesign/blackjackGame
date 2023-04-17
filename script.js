@@ -13,7 +13,7 @@ const coinContainer = document.getElementById('coin-container')
 const bet_amount_content = document.getElementById('bet_amount_content')
 const bet_button = document.getElementById('bet_button')
 const hide_content = document.getElementById('hide_content')
-const bet_amount = document.getElementById('bet_amount')
+const bet_amount = document.getElementById('bet_amounts')
 const modal_result = document.getElementById('modal_you_lost')
 const result_total_player_one_modal = document.getElementById(
   'result_total_player_one'
@@ -123,7 +123,7 @@ function modalResult (resultPlayerOne, resultPlayerTwo, message) {
     <div>
       <h6>${message}</h6> 
       <div>
-        <button>Play again</button>
+        <button onclick="restart()">Play again</button>
       </div>
     </div>
     <div class="result_player_modal">
@@ -222,9 +222,11 @@ const showSelectedCard = card_id => {
 
   if (resultPlayerTwo > 21) {
     showingCards(numbersPlayerOne, content_cards_house)
-    ask_for_a_card.style.display = 'none'
     const message = 'The house wins :8'
     modalResult(resultPlayerOne, resultPlayerTwo, message)
+    ask_for_a_card.style.display = 'none'
+    look_at_the_cards.style.display = 'none'
+    bet_amount.innerHTML = ''
   }
 
   // updated cards player two
@@ -233,7 +235,7 @@ const showSelectedCard = card_id => {
 
 const showCards = () => {
   ask_for_a_card.style.display = 'none'
-  play_again.style.display = 'inline'
+  play_again.style.display = 'none'
   look_at_the_cards.style.display = 'none'
   showingCards(numbersPlayerOne, content_cards_house)
 
@@ -354,3 +356,4 @@ function betAmount () {
     </div>
   `
 }
+

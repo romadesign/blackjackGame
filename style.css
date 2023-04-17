@@ -306,7 +306,7 @@ body {
 
 }
 
-.bet_amount {
+#bet_amounts {
   z-index: 2;
   position: absolute;
   bottom: 16px;
