@@ -1,4 +1,6 @@
+import { showModalUser } from './localstorage.js'
 const content_cards_house = document.getElementById('content_cards_house')
+
 const content_cards_player = document.getElementById('content_cards_player')
 const result_house = document.getElementById('result_house')
 const result_player = document.getElementById('result_player')
@@ -15,9 +17,7 @@ const bet_button = document.getElementById('bet_button')
 const hide_content = document.getElementById('hide_content')
 const bet_amount = document.getElementById('bet_amounts')
 const modal_result = document.getElementById('modal_you_lost')
-const result_total_player_one_modal = document.getElementById(
-  'result_total_player_one'
-)
+
 
 let bank = 1000
 let coins = [5, 10, 20, 50, 100, 200]
@@ -38,7 +38,10 @@ const suits = [
     name: 'diamonds',
     icon: `<i class="bi bi-suit-diamond-fill text-danger"></i>`
   },
-  { name: 'clubs', icon: `<i class="text-danger bi bi-suit-heart-fill"></i>` },
+  {
+    name: 'clubs',
+    icon: `<i class="text-danger bi bi-suit-heart-fill"></i>`
+  },
   { name: 'spades', icon: `<i class="bi bi-suit-club-fill"></i>` }
 ]
 
@@ -113,30 +116,29 @@ function showingCards (numbersPlayer, printResult) {
 
 function modalResult (resultPlayerOne, resultPlayerTwo, message) {
   modal_result.innerHTML = `
-  <div class="content_modal_you_lost">
-    <div class="result_player_modal">
+    <div class="content_modal_you_lost">
+      <div class="result_player_modal">
+        <div>
+          <div>Home</div>
+          <h4>Total: ${resultPlayerOne}</h4>
+        </div>
+      </div>
       <div>
-        <div>Home</div>
-        <h4>Total: ${resultPlayerOne}</h4>
+        <h6>${message}</h6> 
+      </div>
+      <div class="result_player_modal">
+        <div>
+          <div>Player two</div>
+          <h4>Total: ${resultPlayerTwo}</h4>
+        </div>
       </div>
     </div>
-    <div>
-      <h6>${message}</h6> 
-      <div>
-        <button onclick="restart()">Play again</button>
-      </div>
-    </div>
-    <div class="result_player_modal">
-      <div>
-        <div>Player two</div>
-        <h4>Total: ${resultPlayerTwo}</h4>
-      </div>
-    </div>
-  </div>
   `
 }
 
 function start_Game () {
+  showCards()
+  showModalUser()
   /////////Player One ///////
   //house player settings
   const numberOfCards = 2
@@ -179,30 +181,49 @@ function start_Game () {
   showingCards(numbersPlayerTwo, content_cards_player)
 }
 
-const askForLetter = () => {
+
+function showCards() {
   const remainingCardsRamdon = deck.sort(function () {
     return Math.random() - 0.5
   })
 
   const remainingCards = remainingCardsRamdon.map(item => {
     const shouldFlip = false
-    return `
-    <div class="cards-container">
-      <div onclick="showSelectedCard('${item.id}')" id="${
-      item.id
-    }" class="cards ${shouldFlip == false ? 'flip' : ''}">
-        <span class="cards_number_one">${item.rank}</span>
-        <span class="icons ${shouldFlip != true ? 'data' : ''}">${
-      item.icon
-    }</span>
-        <span class="cards_number_two">${item.rank}</span>
-      </div>
-    </div>
-    
-  `
+    const cardElement = document.createElement('div');
+    cardElement.setAttribute('id', item.id);
+    cardElement.classList.add('cards', shouldFlip == false ? 'flip' : '');
+
+    const numberOneElement = document.createElement('span');
+    numberOneElement.classList.add('cards_number_one');
+    numberOneElement.innerHTML = item.rank;
+
+    const iconElement = document.createElement('span');
+    iconElement.classList.add('icons', shouldFlip != true ? 'data' : '');
+    iconElement.innerHTML = item.icon;
+
+    const numberTwoElement = document.createElement('span');
+    numberTwoElement.classList.add('cards_number_two');
+    numberTwoElement.innerHTML = item.rank;
+
+    cardElement.appendChild(numberOneElement);
+    cardElement.appendChild(iconElement);
+    cardElement.appendChild(numberTwoElement);
+
+    cardElement.addEventListener('click', () => {
+      showSelectedCard(item.id);
+    });
+
+    const containerElement = document.createElement('div');
+    containerElement.classList.add('cards-container');
+    containerElement.appendChild(cardElement);
+
+    return containerElement;
   })
 
-  show_the_remaining_cards.innerHTML = remainingCards.join('')
+  show_the_remaining_cards.innerHTML = '';
+  remainingCards.forEach(container => {
+    show_the_remaining_cards.appendChild(container);
+  });
 }
 
 const showSelectedCard = card_id => {
@@ -233,10 +254,80 @@ const showSelectedCard = card_id => {
   showingCards(numbersPlayerTwo, content_cards_player)
 }
 
-const showCards = () => {
+
+//config coins
+const content_coins = coins.map(item => {
+  let style_coins = ''
+  switch (item) {
+    case 5:
+      style_coins = 'coin-five'
+      break
+    case 10:
+      style_coins = 'coin-then'
+      break
+    case 20:
+      style_coins = 'coin-twenty'
+      break
+    case 50:
+      style_coins = 'coin-fifty'
+      break
+    case 100:
+      style_coins = 'coin-hundred'
+      break
+    case 200:
+      style_coins = 'coin-two_hundred'
+      break
+  }
+
+  const betCoinElement = document.createElement('div')
+  betCoinElement.classList.add(style_coins)
+  betCoinElement.innerText = item
+
+  betCoinElement.addEventListener('click', () => {
+    betCoin(item)
+  })
+
+  return betCoinElement
+})
+
+bankdiv.append(...content_coins)
+
+function betCoin (coin) {
+  //show button bet
+  bet_button.style.display = 'block'
+
+  bet_amount_content.innerHTML = ''
+  betCoinsplayerTwo.push(parseInt(coin))
+  total = betCoinsplayerTwo.reduce((a, b) => a + b, 0)
+  betCoinsplayer_house = total
+  bet_amount_content.innerHTML += `$ ${total}`
+}
+
+function betAmount () {
+  const total_bet_players = total + betCoinsplayer_house
+  bet_amount.innerHTML = `
+    <div>
+      <div class="total_text">
+        TOTAL BET
+      </div>
+      <div class="total">
+        $ ${total_bet_players}
+      </div>
+    </div>
+  `
+}
+
+bet_button.addEventListener('click', () => {
+  betAmount()
+  bankdiv.style.display = 'none'
+  hide_content.style.display = 'inline-flex'
+  start_Game()
+})
+
+look_at_the_cards.addEventListener('click', () => {
   ask_for_a_card.style.display = 'none'
-  play_again.style.display = 'none'
   look_at_the_cards.style.display = 'none'
+  play_again.style.display = 'block'
   showingCards(numbersPlayerOne, content_cards_house)
 
   //traer automaticamente una carta del array barajas
@@ -286,74 +377,13 @@ const showCards = () => {
     const message = 'The house wins :3'
     modalResult(resultPlayerOne, resultPlayerTwo, message)
   }
-} 
-
-const restart = () => {
-  window.location.reload()
-}
-
-//config coins
-const content_coins = coins.map(item => {
-  let style_coins = ''
-  switch (item) {
-    case 5:
-      style_coins = 'coin-five'
-      break
-    case 10:
-      style_coins = 'coin-then'
-      break
-    case 20:
-      style_coins = 'coin-twenty'
-      break
-    case 50:
-      style_coins = 'coin-fifty'
-      break
-    case 100:
-      style_coins = 'coin-hundred'
-      break
-    case 200:
-      style_coins = 'coin-two_hundred'
-      break
-  }
-
-  return `
-    <div onclick="betCoin('${item}')" class="${style_coins}">
-      ${item}
-    </div>
-  `
 })
 
-bankdiv.innerHTML = content_coins.join('')
+ask_for_a_card.addEventListener('click', () => {
+  show_the_remaining_cards.style.display = "block"
+})
 
-function betCoin (coin) {
-  //show button bet
-  bet_button.style.display = 'block'
-
-  bet_amount_content.innerHTML = ''
-  betCoinsplayerTwo.push(parseInt(coin))
-  total = betCoinsplayerTwo.reduce((a, b) => a + b, 0)
-  betCoinsplayer_house = total
-  bet_amount_content.innerHTML += `$ ${total}`
-}
-
-function bet () {
-  betAmount()
-  bankdiv.style.display = 'none'
-  hide_content.style.display = 'inline-flex'
-  start_Game()
-}
-
-function betAmount () {
-  const total_bet_players = total + betCoinsplayer_house
-  bet_amount.innerHTML = `
-    <div>
-      <div class="total_text">
-        TOTAL BET
-      </div>
-      <div class="total">
-        $ ${total_bet_players}
-      </div>
-    </div>
-  `
-}
+play_again.addEventListener('click', () => {
+  window.location.reload()
+})
 

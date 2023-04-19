@@ -116,6 +116,7 @@ body {
 }
 
 #show_the_remaining_cards {
+  display: none;
   text-align: center;
   position: absolute;
   right: 0;
@@ -372,13 +373,13 @@ body {
   align-items: center;
 }
 
-.content_modal_you_lost h6{
- font-size: 2rem;
- color: white;
+.content_modal_you_lost h6 {
+  font-size: 2rem;
+  color: white;
 
 }
 
-.content_modal_you_lost button{
+.content_modal_you_lost button {
   background-color: rgb(0, 153, 51);
   color: white;
   font-weight: 700;
@@ -387,16 +388,36 @@ body {
   border-radius: 1rem;
 }
 
-#result_total_player_one{
+#result_total_player_one {
   color: white;
   font-size: 1.5rem;
 }
 
-#result_total_player_two{
+#result_total_player_two {
   color: white;
   font-size: 1.5rem;
 }
 
-.result_player_modal{
+.result_player_modal {
   color: white;
 }
+
+
+#create_user {
+  justify-content: center !important;
+  align-items: center !important;
+  background-color: rgba(27, 26, 26, 0.582);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 3;
+  height: 100vh;
+  display: flex;
+}
+
+.form_user {
+  background-color: rgb(10, 44, 0);
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
