@@ -3,7 +3,7 @@ import {
   content_cards_house,
   content_cards_player,
   result_house,
-  result_player,
+  result_player, //xd
   show_the_remaining_cards,
   ask_for_a_card,
   look_at_the_cards,
