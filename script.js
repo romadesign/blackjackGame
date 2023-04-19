@@ -1,27 +1,26 @@
-import { showModalUser } from './localstorage.js'
-const content_cards_house = document.getElementById('content_cards_house')
+import { savedatauser } from './localstorage.js'
+import {
+  content_cards_house,
+  content_cards_player,
+  result_house,
+  result_player,
+  show_the_remaining_cards,
+  ask_for_a_card,
+  look_at_the_cards,
+  play_again,
+  bankdiv,
+  bet_amount_content,
+  bet_button,
+  hide_content,
+  bet_amount,
+  modal_result,
+  bank,
+  coins,
+  betCoinsplayerTwo,
+} from './constants.js'
+//ejecutando funcion creada en el archivo para localstorage
+savedatauser()
 
-const content_cards_player = document.getElementById('content_cards_player')
-const result_house = document.getElementById('result_house')
-const result_player = document.getElementById('result_player')
-const show_the_remaining_cards = document.getElementById(
-  'show_the_remaining_cards'
-)
-const ask_for_a_card = document.getElementById('ask_for_a_card')
-const look_at_the_cards = document.getElementById('look_at_the_cards')
-const play_again = document.getElementById('play_again')
-const bankdiv = document.getElementById('coins')
-const coinContainer = document.getElementById('coin-container')
-const bet_amount_content = document.getElementById('bet_amount_content')
-const bet_button = document.getElementById('bet_button')
-const hide_content = document.getElementById('hide_content')
-const bet_amount = document.getElementById('bet_amounts')
-const modal_result = document.getElementById('modal_you_lost')
-
-
-let bank = 1000
-let coins = [5, 10, 20, 50, 100, 200]
-let betCoinsplayerTwo = []
 let betCoinsplayer_house = ''
 let numbersPlayerOne = []
 let numbersPlayerTwo = []
@@ -138,7 +137,6 @@ function modalResult (resultPlayerOne, resultPlayerTwo, message) {
 
 function start_Game () {
   showCards()
-  showModalUser()
   /////////Player One ///////
   //house player settings
   const numberOfCards = 2
@@ -181,49 +179,48 @@ function start_Game () {
   showingCards(numbersPlayerTwo, content_cards_player)
 }
 
-
-function showCards() {
+function showCards () {
   const remainingCardsRamdon = deck.sort(function () {
     return Math.random() - 0.5
   })
 
   const remainingCards = remainingCardsRamdon.map(item => {
     const shouldFlip = false
-    const cardElement = document.createElement('div');
-    cardElement.setAttribute('id', item.id);
-    cardElement.classList.add('cards', shouldFlip == false ? 'flip' : '');
+    const cardElement = document.createElement('div')
+    cardElement.setAttribute('id', item.id)
+    cardElement.classList.add('cards', shouldFlip == false ? 'flip' : '')
 
-    const numberOneElement = document.createElement('span');
-    numberOneElement.classList.add('cards_number_one');
-    numberOneElement.innerHTML = item.rank;
+    const numberOneElement = document.createElement('span')
+    numberOneElement.classList.add('cards_number_one')
+    numberOneElement.innerHTML = item.rank
 
-    const iconElement = document.createElement('span');
-    iconElement.classList.add('icons', shouldFlip != true ? 'data' : '');
-    iconElement.innerHTML = item.icon;
+    const iconElement = document.createElement('span')
+    iconElement.classList.add('icons', shouldFlip != true ? 'data' : '')
+    iconElement.innerHTML = item.icon
 
-    const numberTwoElement = document.createElement('span');
-    numberTwoElement.classList.add('cards_number_two');
-    numberTwoElement.innerHTML = item.rank;
+    const numberTwoElement = document.createElement('span')
+    numberTwoElement.classList.add('cards_number_two')
+    numberTwoElement.innerHTML = item.rank
 
-    cardElement.appendChild(numberOneElement);
-    cardElement.appendChild(iconElement);
-    cardElement.appendChild(numberTwoElement);
+    cardElement.appendChild(numberOneElement)
+    cardElement.appendChild(iconElement)
+    cardElement.appendChild(numberTwoElement)
 
     cardElement.addEventListener('click', () => {
-      showSelectedCard(item.id);
-    });
+      showSelectedCard(item.id)
+    })
 
-    const containerElement = document.createElement('div');
-    containerElement.classList.add('cards-container');
-    containerElement.appendChild(cardElement);
+    const containerElement = document.createElement('div')
+    containerElement.classList.add('cards-container')
+    containerElement.appendChild(cardElement)
 
-    return containerElement;
+    return containerElement
   })
 
-  show_the_remaining_cards.innerHTML = '';
+  show_the_remaining_cards.innerHTML = ''
   remainingCards.forEach(container => {
-    show_the_remaining_cards.appendChild(container);
-  });
+    show_the_remaining_cards.appendChild(container)
+  })
 }
 
 const showSelectedCard = card_id => {
@@ -253,7 +250,6 @@ const showSelectedCard = card_id => {
   // updated cards player two
   showingCards(numbersPlayerTwo, content_cards_player)
 }
-
 
 //config coins
 const content_coins = coins.map(item => {
@@ -380,10 +376,9 @@ look_at_the_cards.addEventListener('click', () => {
 })
 
 ask_for_a_card.addEventListener('click', () => {
-  show_the_remaining_cards.style.display = "block"
+  show_the_remaining_cards.style.display = 'block'
 })
 
 play_again.addEventListener('click', () => {
   window.location.reload()
 })
-

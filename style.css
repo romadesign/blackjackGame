@@ -406,7 +406,7 @@ body {
 #create_user {
   justify-content: center !important;
   align-items: center !important;
-  background-color: rgba(27, 26, 26, 0.582);
+  background-color: rgb(27 26 26 / 83%);
   position: fixed;
   width: 100%;
   top: 0;
@@ -415,8 +415,8 @@ body {
   display: flex;
 }
 
-.form_user {
-  background-color: rgb(10, 44, 0);
+.form_user{
+  background-color: rgb(6 26 0);
   padding: 1rem;
   border-radius: 1rem;
 }

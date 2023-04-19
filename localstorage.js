@@ -1,24 +1,26 @@
+import { createBtn, usernameInput, getMyCoinsTotal } from './constants.js'
 
-// document.getElementById('btn').addEventListener("click", async () => {
-//   calcArea()
-// });
+export const savedatauser = () => {
+  createBtn.addEventListener('click', () => {
+    const username = usernameInput.value
+    console.log(username)
+    // aquí puedes hacer lo que quieras con el valor capturado del input
+    saveDataToLocalStorage('username', username)
+    saveDataToLocalStorage('coins_user', 2500)
+    console.log(getMyCoinsTotal)
+  })
+}
 
-// document.getElementById('btn').onclick = () =>{
-//   calcArea()
-// }
-
-
-const ask_for_a_card = document.getElementById('ask_for_a_card')
-export const showModalUser = () =>{
-  
-  console.log(ask_for_a_card)}
-
-
-export function saveDataToLocalStorage(key, value) {
-  localStorage.setItem(key, JSON.stringify(value));
+export function saveDataToLocalStorage (key, value) {
+  localStorage.setItem(key, JSON.stringify(value))
 }
 
 
-export function test(){
-  alert('llege')
+export function getLocalStorageData(key) {
+  const data = localStorage.getItem(key);
+  if (data) {
+    return JSON.parse(data);
+  } else {
+    return null;
+  }
 }
