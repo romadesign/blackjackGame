@@ -1,4 +1,8 @@
-import { savedatauser } from './localstorage.js'
+import {
+  savedatauser,
+  getLocalStorageData,
+  saveDataToLocalStorage
+} from './localstorage.js'
 import {
   content_cards_house,
   content_cards_player,
@@ -17,9 +21,32 @@ import {
   bank,
   coins,
   betCoinsplayerTwo,
+  create_user,
+  my_coins_div,
+  profile
 } from './constants.js'
 //ejecutando funcion creada en el archivo para localstorage
 savedatauser()
+const user = getLocalStorageData('username')
+let coins_user = getLocalStorageData('coins_user')
+
+if (coins_user == undefined && user == undefined) {
+  saveDataToLocalStorage('coins_user', null)
+  saveDataToLocalStorage('username', null)
+}
+
+if (user != null) {
+  create_user.style.display = 'none'
+}
+
+console.log(my_coins_div)
+my_coins_div.innerHTML += `<div class="content_profile_user">
+  <div>Coins = $${coins_user}</div>
+  <div class="d-flex gap-2" justify-content-center align-items-center> 
+    <h5> ${user} </h5>
+    <img style="width: 2rem;"  src="${profile}" class="rounded-circle"/>
+  </div>
+</div>`
 
 let betCoinsplayer_house = ''
 let numbersPlayerOne = []
@@ -30,7 +57,6 @@ let showHouseFirstCard = false
 let total = ''
 //hide button bet
 bet_button.style.display = 'none'
-
 const suits = [
   { name: 'hearts', icon: `<i class="bi bi-suit-spade-fill"></i>` },
   {
@@ -245,6 +271,12 @@ const showSelectedCard = card_id => {
     ask_for_a_card.style.display = 'none'
     look_at_the_cards.style.display = 'none'
     bet_amount.innerHTML = ''
+    play_again.style.display = 'block'
+
+    //calculate coins 
+    const type_operator = "restar"
+    calculate(total, type_operator, coins_user)
+    console.log(coins_user, 'asd')
   }
 
   // updated cards player two
@@ -296,10 +328,12 @@ function betCoin (coin) {
   betCoinsplayerTwo.push(parseInt(coin))
   total = betCoinsplayerTwo.reduce((a, b) => a + b, 0)
   betCoinsplayer_house = total
+
   bet_amount_content.innerHTML += `$ ${total}`
 }
 
 function betAmount () {
+
   const total_bet_players = total + betCoinsplayer_house
   bet_amount.innerHTML = `
     <div>
@@ -334,7 +368,7 @@ look_at_the_cards.addEventListener('click', () => {
     // Agregar la carta al azar a numbersPlayerOne
     numbersPlayerOne.push(newCard)
     resultPlayerOne = totalPoints(numbersPlayerOne) //sumando todas las cartas
-    console.log(resultPlayerOne)
+    console.log(resultPlayerOne, 'asd')
     validationCards(resultPlayerOne, numbersPlayerOne, result_house)
 
     //Mostrando todas las cartas
@@ -369,10 +403,17 @@ look_at_the_cards.addEventListener('click', () => {
   } else if (resultPlayerOne == resultPlayerTwo) {
     const message = 'You win xD'
     modalResult(resultPlayerOne, resultPlayerTwo, message)
+    
   } else {
     const message = 'The house wins :3'
     modalResult(resultPlayerOne, resultPlayerTwo, message)
+   
   }
+
+ //calculate coins 
+ const type_operator = "restar"
+ calculate(total, type_operator)
+
 })
 
 ask_for_a_card.addEventListener('click', () => {
@@ -382,3 +423,13 @@ ask_for_a_card.addEventListener('click', () => {
 play_again.addEventListener('click', () => {
   window.location.reload()
 })
+
+function calculate(apuestaUsuario, operator) {
+  let total_result_coins_user = 0;
+  if (operator === "sumar") {
+    total_result_coins_user = apuestaUsuario + coins_user;
+  } else if (operator === "restar") { // modificamos la condición del operador
+    total_result_coins_user = coins_user - apuestaUsuario; // restamos apuestaUsuario de coins_user
+  }
+  saveDataToLocalStorage("coins_user", total_result_coins_user);
+}

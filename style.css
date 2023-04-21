@@ -122,6 +122,7 @@ body {
   right: 0;
   width: 89%;
   z-index: 3;
+      top: 3rem;
 }
 
 .get {
@@ -413,6 +414,7 @@ body {
   z-index: 3;
   height: 100vh;
   display: flex;
+  opacity: 1;
 }
 
 .form_user{
@@ -421,3 +423,16 @@ body {
   border-radius: 1rem;
 }
 
+#my_coins {
+  position: absolute;
+    left: 0;
+    color: white;
+    border-radius: 1rem;
+    font-weight: bold;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+}
+.content_profile_user{
+  display: flex;
+  justify-content: space-between;
+}
