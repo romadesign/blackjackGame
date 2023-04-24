@@ -4,7 +4,6 @@ export const savedatauser = () => {
   createBtn.addEventListener('click', () => {
     location.reload()
     const username = usernameInput.value
-    // aquí puedes hacer lo que quieras con el valor capturado del input
     saveDataToLocalStorage('username', username)
     saveDataToLocalStorage('coins_user', 2500)
   })

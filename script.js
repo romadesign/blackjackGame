@@ -29,6 +29,7 @@ import {
 savedatauser()
 const user = getLocalStorageData('username')
 let coins_user = getLocalStorageData('coins_user')
+let coinconvert= new Intl.NumberFormat('es-419').format( coins_user )
 
 if (coins_user == undefined && user == undefined) {
   saveDataToLocalStorage('coins_user', null)
@@ -39,9 +40,8 @@ if (user != null) {
   create_user.style.display = 'none'
 }
 
-console.log(my_coins_div)
 my_coins_div.innerHTML += `<div class="content_profile_user">
-  <div>Coins = $${coins_user}</div>
+  <div>Coins = $${coinconvert}</div>
   <div class="d-flex gap-2" justify-content-center align-items-center> 
     <h5> ${user} </h5>
     <img style="width: 2rem;"  src="${profile}" class="rounded-circle"/>
@@ -390,30 +390,39 @@ look_at_the_cards.addEventListener('click', () => {
 
     if (resultPlayerOne > resultPlayerTwo) {
       if (resultPlayerOne >= 22) {
-        const message = 'gano player 2'
+        const message = 'You win ;)'
         modalResult(resultPlayerOne, resultPlayerTwo, message)
+        //calculate coins 
+        const type_operator = "sumar"
+        calculate(total, type_operator)
       } else {
-        const message = 'gano la casa '
+        const message = 'You lost :c'
         modalResult(resultPlayerOne, resultPlayerTwo, message)
+        //calculate coins 
+        const type_operator = "restar"
+        calculate(total, type_operator)
       }
     } else {
-      const message = 'You win :('
+      const message = 'You win :)'
       modalResult(resultPlayerOne, resultPlayerTwo, message)
+      //calculate coins 
+      const type_operator = "sumar"
+      calculate(total, type_operator)
     }
   } else if (resultPlayerOne == resultPlayerTwo) {
-    const message = 'You win xD'
+    const message = 'You win :D'
     modalResult(resultPlayerOne, resultPlayerTwo, message)
+    //calculate coins 
+    const type_operator = "sumar"
+    calculate(total, type_operator)
     
   } else {
-    const message = 'The house wins :3'
+    const message = 'You lost :('
     modalResult(resultPlayerOne, resultPlayerTwo, message)
-   
+    //calculate coins 
+    const type_operator = "restar"
+    calculate(total, type_operator)
   }
-
- //calculate coins 
- const type_operator = "restar"
- calculate(total, type_operator)
-
 })
 
 ask_for_a_card.addEventListener('click', () => {
@@ -428,8 +437,8 @@ function calculate(apuestaUsuario, operator) {
   let total_result_coins_user = 0;
   if (operator === "sumar") {
     total_result_coins_user = apuestaUsuario + coins_user;
-  } else if (operator === "restar") { // modificamos la condición del operador
-    total_result_coins_user = coins_user - apuestaUsuario; // restamos apuestaUsuario de coins_user
+  } else if (operator === "restar") { 
+    total_result_coins_user = coins_user - apuestaUsuario; 
   }
-  saveDataToLocalStorage("coins_user", total_result_coins_user);
+  saveDataToLocalStorage("coins_user", total_result_coins_user );
 }
